@@ -2,6 +2,7 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Instrument_Serif, Inter_Tight, Schibsted_Grotesk } from "next/font/google";
 
+import { ContactTracking } from "@/components/contact-tracking";
 import { JsonLd } from "@/components/json-ld";
 import { SmoothScroll } from "@/components/smooth-scroll";
 import { themeScript } from "@/components/theme";
@@ -88,7 +89,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         {children}
       </body>
       {/* Production only, so local development doesn't count as visits. */}
-      {process.env.NODE_ENV === "production" && <GoogleAnalytics gaId={profile.analyticsId} />}
+      {process.env.NODE_ENV === "production" && (
+        <>
+          <GoogleAnalytics gaId={profile.analyticsId} />
+          <ContactTracking />
+        </>
+      )}
     </html>
   );
 }
