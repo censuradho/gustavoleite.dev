@@ -8,6 +8,7 @@ import { JsonLd } from "@/components/json-ld";
 import { ProjectBlock } from "@/components/project-blocks";
 import { ProjectCover } from "@/components/project-cover";
 import { RememberSlide } from "@/components/remember-slide";
+import { ProjectMark } from "@/components/wordmarks";
 import { getNextProject, getProject, projects } from "@/content/projects";
 import { projectSchema } from "@/content/structured-data";
 
@@ -43,6 +44,7 @@ export default async function ProjectPage({ params }: PageProps<"/projetos/[slug
       <RememberSlide index={projects.indexOf(project)} />
 
       <aside className="aside">
+        <ProjectMark brand={project.identity.wordmark} />
         <h1 className="t-h1 ink">
           <span className="reveal-line">
             <span>{project.name}</span>
