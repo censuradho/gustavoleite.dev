@@ -1,9 +1,18 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 
 import { MailIcon, UserIcon } from "@/components/icons";
 import { ProjectSlider } from "@/components/project-slider";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { profile } from "@/content/profile";
 import { projects } from "@/content/projects";
+
+import { openGraphBase, siteTitle } from "./shared-metadata";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+  openGraph: { ...openGraphBase, title: siteTitle, description: profile.description, url: "/" },
+};
 
 export default function Home() {
   return (
@@ -18,6 +27,7 @@ export default function Home() {
             <a href={`mailto:${profile.email}`} className="btn-icon" aria-label="Enviar e-mail" title={profile.email}>
               <MailIcon />
             </a>
+            <ThemeToggle />
           </>
         }
       />
