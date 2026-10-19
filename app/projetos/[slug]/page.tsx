@@ -4,10 +4,12 @@ import { notFound } from "next/navigation";
 import type { CSSProperties } from "react";
 
 import { ArrowLeftIcon, ExternalIcon } from "@/components/icons";
+import { JsonLd } from "@/components/json-ld";
 import { ProjectBlock } from "@/components/project-blocks";
 import { ProjectCover } from "@/components/project-cover";
 import { RememberSlide } from "@/components/remember-slide";
 import { getNextProject, getProject, projects } from "@/content/projects";
+import { projectSchema } from "@/content/structured-data";
 
 export function generateStaticParams() {
   return projects.map((project) => ({ slug: project.slug }));
@@ -37,6 +39,7 @@ export default async function ProjectPage({ params }: PageProps<"/projetos/[slug
 
   return (
     <main>
+      <JsonLd data={projectSchema(project)} />
       <RememberSlide index={projects.indexOf(project)} />
 
       <aside className="aside">
