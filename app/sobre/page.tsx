@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 
-import { ArrowLeftIcon, DownloadIcon, GitHubIcon, LinkedInIcon, MailIcon } from "@/components/icons";
+import { ArrowLeftIcon, ChatIcon, DownloadIcon, GitHubIcon, LinkedInIcon, MailIcon } from "@/components/icons";
 import { JsonLd } from "@/components/json-ld";
 import { RichText } from "@/components/rich-text";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { about, profile, services } from "@/content/profile";
+import { about, profile, services, whatsappLink } from "@/content/profile";
 import { projects } from "@/content/projects";
 import { profilePageSchema } from "@/content/structured-data";
 
@@ -49,7 +49,18 @@ export default function AboutPage() {
             <Link href="/" transitionTypes={["nav-back"]} className="btn-icon btn-icon--dark" aria-label="Voltar para os projetos" title="Voltar">
               <ArrowLeftIcon />
             </Link>
-            <a href={`mailto:${profile.email}`} className="btn-icon" aria-label="Enviar e-mail" title={profile.email}>
+            <a
+              href={whatsappLink()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-icon"
+              aria-label="Conversar no WhatsApp"
+              title="WhatsApp"
+              data-contact="sobre"
+            >
+              <ChatIcon />
+            </a>
+            <a href={`mailto:${profile.email}`} className="btn-icon" aria-label="Enviar e-mail" title={profile.email} data-contact="sobre">
               <MailIcon />
             </a>
             <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="btn-icon" aria-label="LinkedIn" title="LinkedIn">
@@ -145,8 +156,12 @@ export default function AboutPage() {
         </div>
 
         <p className="t-body">
-          <span className="ink">Tem um projeto em mente?</span> Me conte sobre o seu negócio:{" "}
-          <a href={`mailto:${profile.email}`} className="text-link">
+          <span className="ink">Tem um projeto em mente?</span> Me conte sobre o seu negócio no{" "}
+          <a href={whatsappLink()} target="_blank" rel="noopener noreferrer" className="text-link" data-contact="sobre-rodape">
+            WhatsApp
+          </a>{" "}
+          ou por e-mail:{" "}
+          <a href={`mailto:${profile.email}`} className="text-link" data-contact="sobre-rodape">
             {profile.email}
           </a>
           <br />
