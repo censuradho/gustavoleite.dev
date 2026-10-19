@@ -100,7 +100,7 @@ export default function AboutPage() {
             {projects.map((project, index) => (
               <span key={project.slug}>
                 {index > 0 && " e "}
-                <Link href={`/projetos/${project.slug}`} className="text-link">
+                <Link href={`/projetos/${project.slug}`} prefetch className="text-link">
                   {project.name}
                 </Link>
                 <span>, {project.tagline.toLowerCase()}</span>
