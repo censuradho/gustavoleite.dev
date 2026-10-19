@@ -7,6 +7,19 @@
   --grey: #9f9f9f;
   --card: #ffffff;
   --fog: #e9e9e9;
+  --card-hover: #fbfbfb;
+  --fog-color: #ebebeb;
+  --line: #e4e4e4;
+  --line-card: #ececec;
+  --hairline: rgb(0 0 0 / 0.06);
+  --strong: #000000;
+  --on-strong: #ffffff;
+  --cta: #1a1a1a;
+  --cta-ink: #f6f6f6;
+  --cta-grey: #8a8a8a;
+  /* Text on a project's own surface keeps the light theme's ink, whatever the page's theme. */
+  --surface-ink: #1a1a1a;
+  color-scheme: light;
 
   --ease-out: cubic-bezier(0.32, 0, 0, 1);
   --ease-soft: cubic-bezier(0.215, 0.61, 0.355, 1);
@@ -15,6 +28,45 @@
   --aside-left: 25.7rem;
   --column: 69rem;
   --card-radius: 4.8rem;
+}
+
+/* Dark, by choice on the toggle, or by the system when the viewer hasn't chosen. Both blocks hold the same values. */
+:root[data-theme="dark"] {
+  --bg: #111111;
+  --ink: #f2f2f2;
+  --grey: #8c8c8c;
+  --card: #1b1b1b;
+  --card-hover: #202020;
+  --fog-color: #161616;
+  --line: #262626;
+  --line-card: #2a2a2a;
+  --hairline: rgb(255 255 255 / 0.08);
+  --strong: #f2f2f2;
+  --on-strong: #111111;
+  --cta: #f2f2f2;
+  --cta-ink: #1a1a1a;
+  --cta-grey: #6b6b6b;
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111111;
+    --ink: #f2f2f2;
+    --grey: #8c8c8c;
+    --card: #1b1b1b;
+    --card-hover: #202020;
+    --fog-color: #161616;
+    --line: #262626;
+    --line-card: #2a2a2a;
+    --hairline: rgb(255 255 255 / 0.08);
+    --strong: #f2f2f2;
+    --on-strong: #111111;
+    --cta: #f2f2f2;
+    --cta-ink: #1a1a1a;
+    --cta-grey: #6b6b6b;
+    color-scheme: dark;
+  }
 }
 
 @theme inline {
@@ -119,7 +171,7 @@ a.text-link:hover {
   opacity: 0.6;
 }
 
-/* Square icon buttons, white on the grey sheet; the dark one is the way back. */
+/* Square icon buttons, cards on the sheet; the strong one is the way back. */
 .btn-row {
   display: flex;
   flex-wrap: wrap;
@@ -147,8 +199,8 @@ a.text-link:hover {
 }
 
 .btn-icon--dark {
-  background: #000;
-  color: #fff;
+  background: var(--strong);
+  color: var(--on-strong);
   border-radius: 50%;
 }
 
@@ -424,7 +476,7 @@ a.text-link:hover {
 .slide__fog {
   position: absolute;
   inset: 0;
-  background: #ebebeb;
+  background: var(--fog-color);
   opacity: var(--fog);
   transition: opacity 1.1s var(--ease-out);
   pointer-events: none;
@@ -446,7 +498,7 @@ a.text-link:hover {
 }
 
 .slide__title[data-tone="dark"] {
-  color: var(--ink);
+  color: var(--surface-ink);
 }
 
 .slide__shade {
@@ -554,7 +606,7 @@ a.text-link:hover {
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.06);
+  box-shadow: inset 0 0 0 1px var(--hairline);
 }
 
 .project-mark svg {
@@ -616,7 +668,7 @@ a.text-link:hover {
 }
 
 .card__caption[data-tone="dark"] {
-  color: var(--ink);
+  color: var(--surface-ink);
 }
 
 .card--text {
@@ -633,9 +685,18 @@ a.text-link:hover {
   margin-top: 2.4rem;
 }
 
+/* The call to action says less than a text card, so it takes half the height, and takes the opposite theme to stand out in the column. */
+.card--cta {
+  --ink: var(--cta-ink);
+  --grey: var(--cta-grey);
+  min-height: calc(var(--column) / 2);
+  background: var(--cta);
+  color: var(--grey);
+}
+
 .rows {
   margin-top: 3.2rem;
-  border-top: 1px solid #ececec;
+  border-top: 1px solid var(--line-card);
 }
 
 .rows li {
@@ -643,7 +704,7 @@ a.text-link:hover {
   grid-template-columns: 18rem 1fr;
   gap: 2.4rem;
   padding: 1.2rem 0;
-  border-bottom: 1px solid #ececec;
+  border-bottom: 1px solid var(--line-card);
 }
 
 .card--next {
@@ -656,7 +717,7 @@ a.text-link:hover {
 }
 
 .card--next:hover {
-  background: #fbfbfb;
+  background: var(--card-hover);
 }
 
 @media (max-width: 768px) {
@@ -766,6 +827,73 @@ a.text-link:hover {
   }
 }
 
+/* ---------- Roarch mark ---------- */
+
+.mark-steps {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 34cqw);
+  place-content: center;
+  gap: 4cqw 6cqw;
+}
+
+.mark-step__sheet,
+.mark-final__icons svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.mark-step__sheet {
+  background: #f5f1e9;
+  border-radius: 0.8cqw;
+  box-shadow: inset 0 0 0 1px rgb(26 24 20 / 0.12);
+}
+
+.mark-step__label {
+  display: block;
+  margin-top: 1.4cqw;
+  font-size: max(1rem, 1.8cqw);
+  text-transform: uppercase;
+  color: #5f5a54;
+}
+
+.mark-final {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12cqw;
+}
+
+/* The mark and the name share one height, with the gap of the site's header. */
+.mark-final__lockup {
+  display: flex;
+  align-items: center;
+  gap: 0.43em;
+  font-size: 12.5cqw;
+}
+
+.mark-final__lockup svg {
+  height: 1em;
+  width: auto;
+}
+
+.mark-final__icons {
+  display: grid;
+  grid-template-columns: repeat(3, 15cqw);
+  gap: 9cqw;
+  text-align: center;
+}
+
+.mark-final__icons svg {
+  border-radius: 2.6cqw;
+  box-shadow: 0 0 0 1px rgb(26 24 20 / 0.12);
+}
+
 /* ---------- About ---------- */
 
 .about-intro {
@@ -813,7 +941,7 @@ a.text-link:hover {
   width: 1px;
   height: 4.8rem;
   overflow: hidden;
-  background: #e4e4e4;
+  background: var(--line);
 }
 
 .scroll-cue__track::after {
@@ -842,7 +970,7 @@ a.text-link:hover {
 }
 
 .list {
-  border-top: 1px solid #e4e4e4;
+  border-top: 1px solid var(--line);
 }
 
 .list li {
@@ -850,7 +978,7 @@ a.text-link:hover {
   grid-template-columns: 1fr 1fr auto;
   gap: 2.4rem;
   padding: 1.4rem 0;
-  border-bottom: 1px solid #e4e4e4;
+  border-bottom: 1px solid var(--line);
 }
 
 @media (max-width: 768px) {
@@ -898,6 +1026,30 @@ a.text-link:hover {
 ::view-transition-old(root),
 ::view-transition-new(root) {
   animation-duration: 0.45s;
+}
+
+/* Switching theme: the old page holds still while the new one opens over it as a circle from the toggle. */
+.theme-switch *,
+.theme-switch *::before,
+.theme-switch *::after {
+  transition: none !important;
+}
+
+.theme-switch::view-transition-old(root) {
+  animation: none;
+}
+
+.theme-switch::view-transition-new(root) {
+  animation: theme-reveal 0.8s var(--ease-out);
+}
+
+@keyframes theme-reveal {
+  from {
+    clip-path: circle(0 at var(--reveal-x) var(--reveal-y));
+  }
+  to {
+    clip-path: circle(var(--reveal-r) at var(--reveal-x) var(--reveal-y));
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
