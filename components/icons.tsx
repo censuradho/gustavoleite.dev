@@ -34,6 +34,15 @@ export function ThemeIcon() {
   )
 }
 
+/** A speech bubble with its tail at the bottom left, the chat apps' shape. */
+export function ChatIcon() {
+  return (
+    <Icon>
+      <path d="M2.2 12.3 2.6 9.9A5.4 5.4 0 1 1 4.3 11.5Z" />
+    </Icon>
+  )
+}
+
 export function MailIcon() {
   return (
     <Icon>
