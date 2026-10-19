@@ -3,6 +3,7 @@ import type { CSSProperties } from "react"
 import type { Block, Identity, Project } from "@/content/projects"
 
 import { LoopVideo } from "./loop-video"
+import { RoarchMarkConstruction, RoarchMarkFinal } from "./roarch-mark"
 import { RichText } from "./rich-text"
 import { FloatShot, Phones, Surface, WindowShot } from "./surface"
 import { NicellWordmark, RoarchWordmark } from "./wordmarks"
@@ -90,6 +91,16 @@ export function ProjectBlock({ block, project }: { block: Block; project: Projec
 
     case "identity":
       return <IdentityCard identity={project.identity} />
+
+    case "roarch-mark":
+      return (
+        <figure className="card">
+          <Surface surface={block.surface}>
+            {block.stage === "construction" ? <RoarchMarkConstruction /> : <RoarchMarkFinal />}
+          </Surface>
+          <figcaption className="sr-only">{block.alt}</figcaption>
+        </figure>
+      )
   }
 }
 

@@ -52,6 +52,8 @@ export type Block =
   /** A screen recording, looping silently while it is on screen. */
   | { kind: "video"; src: string; poster: StaticImageData; alt: string; caption: string; surface: Surface }
   | { kind: "identity" }
+  /** Roarch's mark drawn in code: how it was built from a floor plan, or the finished lockup and icons. */
+  | { kind: "roarch-mark"; stage: "construction" | "final"; alt: string; surface: Surface }
 
 export type Identity = {
   wordmark: "nicell" | "roarch"
@@ -98,14 +100,14 @@ export const projects: Project[] = [
     name: "Nicell",
     tagline: "Gestão para assistências técnicas",
     description:
-      "Nicell: SaaS de gestão para assistências técnicas, com ordem de serviço, checklist com fotos, estoque, vendas, financeiro e portal do cliente.",
+      "Nicell, sistema de gestão para assistências técnicas: ordem de serviço, checklist com fotos, estoque, vendas, financeiro e portal do cliente num só lugar.",
     url: "https://nicell.com.br",
     year: "2026",
     meta: [
       { label: "Ano", value: "2026" },
-      { label: "Tipo", value: "SaaS B2B" },
-      { label: "Papel", value: "Produto, design e engenharia" },
-      { label: "Stack", value: "React, NestJS, PostgreSQL" },
+      { label: "Setor", value: "Assistência técnica" },
+      { label: "Tipo", value: "Sistema de gestão por assinatura" },
+      { label: "Escopo", value: "Produto, design, sistema e site de vendas" },
     ],
     cover: {
       image: nicellHero,
@@ -236,18 +238,18 @@ export const projects: Project[] = [
       },
       {
         kind: "text",
-        title: "Engenharia",
+        title: "Pronto para vender",
         body: [
-          "Monorepo com **pnpm e Turborepo**: admin, API e site, mais pacotes compartilhados. A API segue **arquitetura hexagonal** por módulo e roda em Docker numa VPS; admin e site saem pela Vercel, com versões geradas a partir dos commits.",
+          "O Nicell é vendido **por assinatura**, então o sistema já nasceu cobrando, avisando e protegendo os dados de cada loja sozinho, sem ninguém operando por trás.",
+          "Feito em React, NestJS e PostgreSQL, a mesma base de sistemas de grandes empresas.",
         ],
         rows: [
-          { label: "Admin", value: "Vite, React 19, TanStack Query e Table, React Hook Form, Zod" },
-          { label: "API", value: "NestJS, Fastify, Prisma, PostgreSQL, BullMQ e Redis" },
-          { label: "Site", value: "Next.js, Motion, Lenis" },
-          { label: "Autenticação", value: "Supabase Auth" },
-          { label: "Arquivos", value: "S3 com URLs assinadas e PDFs com pdfmake" },
-          { label: "Assinaturas", value: "Stripe" },
-          { label: "Notificações", value: "E-mail e Web Push" },
+          { label: "Cobrança", value: "Planos mensal, semestral e anual, com teste grátis" },
+          { label: "Avisos", value: "E-mail e notificação no celular do cliente" },
+          { label: "Documentos", value: "Recibos em PDF gerados na hora" },
+          { label: "Fotos", value: "Guardadas com acesso restrito, só quem tem o link vê" },
+          { label: "Acesso", value: "Login seguro, com cada loja vendo só os próprios dados" },
+          { label: "Site de vendas", value: "Página que explica o produto e leva para o cadastro" },
         ],
       },
       {
@@ -270,9 +272,9 @@ export const projects: Project[] = [
     year: "2026",
     meta: [
       { label: "Ano", value: "2026" },
+      { label: "Setor", value: "Design de interiores" },
       { label: "Tipo", value: "Site institucional" },
-      { label: "Papel", value: "Design e desenvolvimento" },
-      { label: "Stack", value: "Next.js, GSAP, Three.js" },
+      { label: "Escopo", value: "Marca, conceito, design e desenvolvimento" },
     ],
     cover: {
       image: roarchHero,
@@ -346,7 +348,6 @@ export const projects: Project[] = [
           { label: "Projetos", value: "Máscara circular revela render e obra sobre a planta" },
           { label: "Cozinha", value: "Modelo 3D em Three.js, do esboço ao acabamento" },
           { label: "Tema", value: "Alterna entre o papel e a cianotipia" },
-          { label: "Idiomas", value: "Português e inglês" },
         ],
       },
       {
@@ -371,13 +372,33 @@ export const projects: Project[] = [
         caption: "Açougue Boutique: a obra aparece por cima da planta",
         surface: roarchWindowCactiSurface,
       },
-      { kind: "identity" },
+      {
+        kind: "text",
+        title: "Marca",
+        body: [
+          "Criei também a **marca** da Roarch. Ela nasce do desenho que as projetistas fazem todo dia, a **planta baixa**: um cômodo visto de cima, com as paredes em traço grosso e uma porta aberta.",
+          "Da planta sobrou só o essencial: um quadrado, paredes de mesma espessura e a abertura da porta. A porta é a única linha que não é parede, por isso vai em **terracota**, a tinta de marcação da prancha. Ao lado, o nome em **Instrument Serif** itálico.",
+        ],
+      },
+      {
+        kind: "roarch-mark",
+        stage: "construction",
+        alt: "Construção da marca em quatro pranchas: a planta baixa de um apartamento com um quarto destacado, o quarto sozinho com a porta aberta, as medidas sobre uma grade e a marca final",
+        surface: roarchPaper,
+      },
+      {
+        kind: "roarch-mark",
+        stage: "final",
+        alt: "A marca da Roarch ao lado do nome em serifada itálica, e o ícone nas versões papel, cianotipia e nanquim",
+        surface: roarchPaper,
+      },
       {
         kind: "phones",
         caption: "No celular, o mesmo papel e a mesma régua",
         surface: roarchLivingFireplaceSurface,
         shots: [{ image: roarchMobile, alt: "Página inicial da Roarch no celular" }],
       },
+      { kind: "identity" },
       {
         kind: "window",
         image: roarchProjects,
@@ -387,17 +408,18 @@ export const projects: Project[] = [
       },
       {
         kind: "text",
-        title: "Engenharia",
+        title: "Pronto para trazer clientes",
         body: [
-          "Next.js com rotas por idioma, imagens de compartilhamento geradas por página e sitemap. O movimento é todo **ligado ao scroll**, com GSAP e Lenis, e respeita quem prefere menos animação.",
+          "Bonito não basta: o site precisa **ser encontrado e virar conversa**. Por isso cada página foi preparada para o Google e para o compartilhamento, e o contato já chega com o que as projetistas precisam para orçar.",
+          "Feito em Next.js, com GSAP e Three.js no movimento e no 3D.",
         ],
         rows: [
-          { label: "Base", value: "Next.js 16, React 19, TypeScript" },
-          { label: "Estilo", value: "Tailwind CSS 4, Base UI, shadcn" },
-          { label: "Movimento", value: "GSAP, ScrollTrigger, Lenis" },
-          { label: "3D", value: "Three.js" },
-          { label: "Formulário", value: "Briefing validado com Zod" },
-          { label: "Impressos", value: "Cartões de visita gerados em PDF com pdf-lib" },
+          { label: "Google", value: "Páginas e mapa do site preparados para a busca" },
+          { label: "Compartilhamento", value: "Cada página gera a própria prévia no WhatsApp e nas redes" },
+          { label: "Briefing", value: "Tipo de espaço, prazo e orçamento antes da primeira conversa" },
+          { label: "Idiomas", value: "Português e inglês, cada um no seu endereço" },
+          { label: "Impressos", value: "Cartões de visita gerados pelo próprio site, em PDF" },
+          { label: "Acessibilidade", value: "Menos animação para quem prefere" },
         ],
       },
     ],
