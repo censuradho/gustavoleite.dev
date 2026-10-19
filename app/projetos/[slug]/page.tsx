@@ -11,7 +11,7 @@ import { RememberSlide } from "@/components/remember-slide";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { ProjectMark } from "@/components/wordmarks";
 import { getNextProject, getProject, projects } from "@/content/projects";
-import { profile } from "@/content/profile";
+import { profile, whatsappLink } from "@/content/profile";
 import { projectSchema } from "@/content/structured-data";
 
 import { openGraphBase } from "../../shared-metadata";
@@ -135,7 +135,17 @@ async function Project({ params }: Pick<PageProps<"/projetos/[slug]">, "params">
               volto com uma proposta.
             </p>
             <p className="t-body">
-              <a href={`mailto:${profile.email}`} className="text-link">
+              <a
+                href={whatsappLink(`Oi, Gustavo! Vi o projeto ${project.name} no seu site e queria conversar sobre algo parecido.`)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-link"
+                data-contact="projeto"
+              >
+                Conversar no WhatsApp
+              </a>
+              <br />
+              <a href={`mailto:${profile.email}`} className="text-link" data-contact="projeto">
                 {profile.email}
               </a>
             </p>
