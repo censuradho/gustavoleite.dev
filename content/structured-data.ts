@@ -39,6 +39,7 @@ function business() {
     description: profile.description,
     url: absolute("/"),
     email: profile.email,
+    telephone: profile.phone,
     image: absolute("/opengraph-image.png"),
     address,
     areaServed: [
