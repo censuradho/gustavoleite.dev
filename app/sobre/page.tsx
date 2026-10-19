@@ -5,14 +5,27 @@ import type { CSSProperties } from "react";
 import { ArrowLeftIcon, DownloadIcon, GitHubIcon, LinkedInIcon, MailIcon } from "@/components/icons";
 import { JsonLd } from "@/components/json-ld";
 import { RichText } from "@/components/rich-text";
-import { about, profile } from "@/content/profile";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { about, profile, services } from "@/content/profile";
 import { projects } from "@/content/projects";
 import { profilePageSchema } from "@/content/structured-data";
 
+import { openGraphBase } from "../shared-metadata";
+
+const description =
+  "Gustavo Leite cria sites, sistemas de gestão e lojas virtuais sob medida em Porto Alegre, com 7 anos de experiência em marcas como Vans, Arezzo e Atacadão.";
+
 export const metadata: Metadata = {
   title: "Sobre",
-  description:
-    "Gustavo Leite, engenheiro de software em Porto Alegre: 7 anos com React, Next.js, NestJS e AWS, de e-commerces a plataformas de gestão.",
+  description,
+  alternates: { canonical: "/sobre" },
+  openGraph: {
+    ...openGraphBase,
+    type: "profile",
+    title: `Sobre ${profile.name}`,
+    description,
+    url: "/sobre",
+  },
 };
 
 export default function AboutPage() {
@@ -48,6 +61,7 @@ export default function AboutPage() {
             <a href={profile.resume} download className="btn-icon" aria-label="Baixar currículo em PDF" title="Currículo (PDF)">
               <DownloadIcon />
             </a>
+            <ThemeToggle />
           </div>
         </div>
 
@@ -66,6 +80,34 @@ export default function AboutPage() {
               <RichText text={paragraph} />
             </p>
           ))}
+        </div>
+
+        <div>
+          <h2 className="t-body ink mb-[2.4rem]">O que eu faço</h2>
+          <ul className="list t-row">
+            {services.map((service) => (
+              <li key={service.name} className="!grid-cols-[18rem_1fr] max-md:!grid-cols-1">
+                <span className="ink">{service.name}</span>
+                <span>{service.description}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <h2 className="t-body ink">Projetos</h2>
+          <p className="t-body">
+            {projects.map((project, index) => (
+              <span key={project.slug}>
+                {index > 0 && " e "}
+                <Link href={`/projetos/${project.slug}`} className="text-link">
+                  {project.name}
+                </Link>
+                <span>, {project.tagline.toLowerCase()}</span>
+              </span>
+            ))}
+            .
+          </p>
         </div>
 
         <div>
@@ -102,24 +144,8 @@ export default function AboutPage() {
           </ul>
         </div>
 
-        <div>
-          <h2 className="t-body ink">Projetos</h2>
-          <p className="t-body">
-            {projects.map((project, index) => (
-              <span key={project.slug}>
-                {index > 0 && " e "}
-                <Link href={`/projetos/${project.slug}`} className="text-link">
-                  {project.name}
-                </Link>
-                <span>, {project.tagline.toLowerCase()}</span>
-              </span>
-            ))}
-            .
-          </p>
-        </div>
-
         <p className="t-body">
-          Para conversar sobre produto e engenharia:{" "}
+          <span className="ink">Tem um projeto em mente?</span> Me conte sobre o seu negócio:{" "}
           <a href={`mailto:${profile.email}`} className="text-link">
             {profile.email}
           </a>
