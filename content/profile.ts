@@ -8,6 +8,8 @@ export const profile = {
   github: "https://github.com/censuradho",
   resume: "/GustavoLeiteOliveira-Resume.pdf",
   site: "https://gustavoleite.dev",
+  description:
+    "Portfólio de Gustavo Leite, engenheiro de software em Porto Alegre. Projetos de produto do começo ao fim: Nicell e Roarch.",
   // Same GA4 property as the previous version of the site, so the history carries over.
   analyticsId: "G-7S7ENB8DS9",
 }
