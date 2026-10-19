@@ -87,11 +87,11 @@ export function ProjectSlider({ projects, actions }: { projects: Project[]; acti
           </span>
         </h1>
         <p className="t-h1 grey">
-          <span className="sr-only">{profile.role}</span>
+          <span className="sr-only">{profile.headline}</span>
           <span className="reveal-line" style={{ "--line": 1 } as CSSProperties} aria-hidden>
             <span>
               <span className="swap" data-swapped={hovered}>
-                <span>{profile.role}</span>
+                <span>{profile.headline}</span>
                 <span>
                   {activeProject.tagline}, {activeProject.year}
                 </span>
