@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# original photos kept out of public/; the site uses the optimized copies in public/projects
+/.originais
