@@ -24,6 +24,16 @@ export function UserIcon() {
   )
 }
 
+/** Half filled: the two themes in one circle. */
+export function ThemeIcon() {
+  return (
+    <Icon>
+      <circle cx="7" cy="7" r="5.6" />
+      <path d="M7 1.4a5.6 5.6 0 0 1 0 11.2z" fill="currentColor" />
+    </Icon>
+  )
+}
+
 export function MailIcon() {
   return (
     <Icon>
