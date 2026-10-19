@@ -1,26 +1,833 @@
 @import "tailwindcss";
 
+/* 1rem follows the viewport, like a drawing at a fixed scale: 10px at 1440px wide, 10px at 375px on phones. */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #f6f6f6;
+  --ink: #1a1a1a;
+  --grey: #9f9f9f;
+  --card: #ffffff;
+  --fog: #e9e9e9;
+
+  --ease-out: cubic-bezier(0.32, 0, 0, 1);
+  --ease-soft: cubic-bezier(0.215, 0.61, 0.355, 1);
+
+  --gutter: 2rem;
+  --aside-left: 25.7rem;
+  --column: 69rem;
+  --card-radius: 4.8rem;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  font-size: 0.694445vw;
+  color: var(--ink);
+  font-family: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
+  font-synthesis: none;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100svh;
+  background: var(--bg);
+  color: var(--grey);
+  font-size: 1.6rem;
+  line-height: 1.3;
+  overflow-x: hidden;
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: 2.66667vw;
+  }
+
+  :root {
+    --gutter: 1.6rem;
+    --card-radius: 3.2rem;
+  }
+}
+
+::selection {
+  background: var(--ink);
+  color: var(--bg);
+}
+
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+/* Type scale: one family, one weight; hierarchy comes from size and from ink against grey. */
+.t-h1 {
+  font-size: 3.2rem;
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+.t-body {
+  font-size: 2.4rem;
+  line-height: 1.24;
+  letter-spacing: -0.01em;
+  text-wrap: pretty;
+}
+
+.t-row {
+  font-size: 1.8rem;
+  line-height: 1.3;
+}
+
+.t-small {
+  font-size: 1.4rem;
+  line-height: 1.35;
+}
+
+.ink {
+  color: var(--ink);
+}
+
+.grey {
+  color: var(--grey);
+}
+
+@media (max-width: 768px) {
+  .t-h1 {
+    font-size: 2.6rem;
+  }
+
+  .t-body {
+    font-size: 1.8rem;
+  }
+
+  .t-row {
+    font-size: 1.5rem;
+  }
+
+  .t-small {
+    font-size: 1.3rem;
+  }
+}
+
+a.text-link {
+  color: var(--ink);
+  transition: opacity 0.2s ease-out;
+}
+
+a.text-link:hover {
+  opacity: 0.6;
+}
+
+/* Square icon buttons, white on the grey sheet; the dark one is the way back. */
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 5.4rem;
+  height: 5.4rem;
+  border-radius: 1.5rem;
+  background: var(--card);
+  color: var(--ink);
+  transition:
+    border-radius 0.3s cubic-bezier(0.785, 0.135, 0.15, 0.86),
+    background-color 0.3s cubic-bezier(0.785, 0.135, 0.15, 0.86),
+    scale 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.btn-icon svg {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+.btn-icon--dark {
+  background: #000;
+  color: #fff;
+  border-radius: 50%;
+}
+
+@media (hover: hover) {
+  .btn-icon:hover {
+    scale: 1.037;
+  }
+}
+
+.btn-icon:active {
+  border-radius: 2.7rem;
+}
+
+@media (max-width: 768px) {
+  .btn-icon {
+    width: 4.4rem;
+    height: 4.4rem;
+    border-radius: 1.2rem;
+  }
+
+  .btn-icon svg {
+    width: 1.6rem;
+    height: 1.6rem;
+  }
+}
+
+/* Name and role, revealed line by line on arrival: the one orchestrated moment of the site. */
+.reveal-line {
+  display: block;
+  overflow: hidden;
+}
+
+.reveal-line > span {
+  display: block;
+  animation: line-in 1s var(--ease-out) both;
+  animation-delay: calc(var(--line, 0) * 90ms + 80ms);
+}
+
+@keyframes line-in {
+  from {
+    transform: translateY(110%);
+  }
+}
+
+.fade-in {
+  animation: fade-in 0.8s var(--ease-soft) both;
+  animation-delay: calc(var(--line, 0) * 90ms + 80ms);
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Swaps the role for the hovered project's line, sliding one out and the other in. */
+.swap {
+  display: grid;
+  overflow: hidden;
+}
+
+.swap > span {
+  grid-area: 1 / 1;
+  transition: transform 0.7s var(--ease-out);
+}
+
+.swap > span:last-child {
+  transform: translateY(110%);
+}
+
+.swap[data-swapped="true"] > span:first-child {
+  transform: translateY(-110%);
+}
+
+.swap[data-swapped="true"] > span:last-child {
+  transform: translateY(0);
+}
+
+/* ---------- Surfaces: the ground each project brings to its cards ---------- */
+
+.surface {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  container-type: size;
+  isolation: isolate;
+}
+
+.surface__image {
+  object-fit: cover;
+  z-index: -1;
+}
+
+.surface--dots {
+  background-image: radial-gradient(circle, rgb(21 23 28 / 0.16) 0.12cqw, transparent 0.16cqw);
+  background-size: 2cqw 2cqw;
+}
+
+.surface--blueprint {
+  background-image:
+    linear-gradient(rgb(255 255 255 / 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(255 255 255 / 0.07) 1px, transparent 1px);
+  background-size: 5cqw 5cqw;
+  background-position: center;
+}
+
+/* Millimetre rulers along the four edges, as on the Roarch sheet. */
+.surface--ruler::before {
+  content: "";
+  position: absolute;
+  inset: 2.4cqw;
+  z-index: -1;
+  border: 1px solid rgb(26 24 20 / 0.22);
+  background:
+    repeating-linear-gradient(90deg, rgb(26 24 20 / 0.28) 0 1px, transparent 1px 1cqw) top / 100% 1.2cqw no-repeat,
+    repeating-linear-gradient(90deg, rgb(26 24 20 / 0.28) 0 1px, transparent 1px 1cqw) bottom / 100% 1.2cqw no-repeat,
+    repeating-linear-gradient(0deg, rgb(26 24 20 / 0.28) 0 1px, transparent 1px 1cqw) left / 1.2cqw 100% no-repeat,
+    repeating-linear-gradient(0deg, rgb(26 24 20 / 0.28) 0 1px, transparent 1px 1cqw) right / 1.2cqw 100% no-repeat;
+}
+
+/* A page screenshot floating over the surface. */
+.shot {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  overflow: hidden;
+  background: #fff;
+  box-shadow:
+    0 0.3cqw 0.8cqw rgb(0 0 0 / 0.08),
+    0 3cqw 8cqw rgb(0 0 0 / 0.18);
+}
+
+.shot img,
+.shot video {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.shot--window {
+  width: 82cqw;
+  border-radius: 1.4cqw;
+}
+
+.shot--float {
+  width: calc(var(--w) * 1cqw);
+  max-height: 84cqh;
+  border-radius: 1.8cqw;
+}
+
+.shot--float img {
+  height: 100%;
+  object-fit: contain;
+}
+
+.phones {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6cqw;
+}
+
+.phone {
+  height: 80cqh;
+  aspect-ratio: 1170 / 2532;
+  overflow: hidden;
+  border: 1cqw solid #121212;
+  border-radius: 6.5cqw;
+  background: #fff;
+  box-shadow: 0 3cqw 8cqw rgb(0 0 0 / 0.3);
+}
+
+.phone img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+
+/* ---------- Home ---------- */
+
+.home {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  touch-action: none;
+}
+
+.intro {
+  position: absolute;
+  left: var(--aside-left);
+  top: 50%;
+  translate: 0 -50%;
+  z-index: 10;
+}
+
+.intro .btn-row {
+  margin-top: 5.6rem;
+}
+
+.slider {
+  position: absolute;
+  left: 84.8rem;
+  top: 50%;
+  width: 33.5rem;
+  height: 34.4rem;
+  margin-top: -17.2rem;
+  /* The other projects rest near the top and bottom edges whatever the window's proportions,
+     but never closer to the centre than the active card's own edge. */
+  --y1: max(21rem, calc(50svh - 8.5rem));
+  --y2: max(23.4rem, calc(50svh - 6.1rem));
+  --y3: max(26rem, calc(50svh - 3.5rem));
+}
+
+.slide {
+  --y: 0rem;
+  --rx: 0deg;
+  --s: 1;
+  --o: 1;
+  --fog: 0;
+  position: absolute;
+  inset: 0;
+  border-radius: 3.2rem;
+  overflow: hidden;
+  transform-origin: 50% 50%;
+  transform: translateY(var(--y)) perspective(120rem) rotateX(var(--rx)) scale(var(--s));
+  opacity: var(--o);
+  mask-image: linear-gradient(var(--fade, to bottom), rgb(0 0 0 / var(--edge)), #000 70%);
+  transition:
+    transform 1.1s var(--ease-out),
+    opacity 1.1s var(--ease-out),
+    --edge 1.1s var(--ease-out);
+  will-change: transform;
+}
+
+/*
+ * The other projects lie almost flat, seen edge-on, with the edge away from the active card nearest to the
+ * viewer. Each card carries its own perspective, so they keep the same thin profile on any window.
+ */
+.slide[data-offset="-1"] { --y: calc(var(--y1) * -1); --rx: -82deg; --s: 0.97; --fog: 1; --o: 0.7; --fade: to bottom; }
+.slide[data-offset="1"] { --y: var(--y1); --rx: 82deg; --s: 0.97; --fog: 1; --o: 0.7; --fade: to top; }
+.slide[data-offset="-2"] { --y: calc(var(--y2) * -1); --rx: -84deg; --s: 0.93; --fog: 1; --o: 0.4; --fade: to bottom; }
+.slide[data-offset="2"] { --y: var(--y2); --rx: 84deg; --s: 0.93; --fog: 1; --o: 0.4; --fade: to top; }
+.slide[data-offset="-3"] { --y: calc(var(--y3) * -1); --rx: -86deg; --s: 0.89; --fog: 1; --o: 0; --fade: to bottom; }
+.slide[data-offset="3"] { --y: var(--y3); --rx: 86deg; --s: 0.89; --fog: 1; --o: 0; --fade: to top; }
+
+/* Washed out and fading towards the screen edge, so they read as the rest of the stack, not as content.
+   The fade is a registered number so it eases in with the fold instead of snapping on. */
+@property --edge {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 1;
+}
+
+.slide:not([data-offset="0"]) {
+  --edge: 0;
+}
+
+.slide__link,
+.slide__button {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  border-radius: inherit;
+  cursor: pointer;
+}
+
+.slide__fog {
+  position: absolute;
+  inset: 0;
+  background: #ebebeb;
+  opacity: var(--fog);
+  transition: opacity 1.1s var(--ease-out);
+  pointer-events: none;
+}
+
+.slide__title {
+  position: absolute;
+  left: 3rem;
+  bottom: 2.8rem;
+  font-size: 1.6rem;
+  line-height: 1;
+  pointer-events: none;
+  opacity: calc(1 - var(--fog));
+  transition: opacity 0.5s var(--ease-soft);
+}
+
+.slide__title[data-tone="light"] {
+  color: rgb(255 255 255 / 0.86);
+}
+
+.slide__title[data-tone="dark"] {
+  color: var(--ink);
+}
+
+.slide__shade {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 30%;
+  background: linear-gradient(to top, rgb(0 0 0 / 0.28), transparent);
+  pointer-events: none;
+}
+
+.dots {
+  position: absolute;
+  right: 8rem;
+  top: 50%;
+  translate: 0 -50%;
+  display: flex;
+  flex-direction: column;
+}
+
+.dots button {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 1.2rem;
+  cursor: pointer;
+}
+
+.dots button::before {
+  content: "";
+  width: 0.3rem;
+  height: 0.3rem;
+  border-radius: 50%;
+  background: var(--grey);
+  transition:
+    background-color 0.3s,
+    scale 0.3s;
+}
+
+.dots button[aria-current="true"]::before {
+  background: var(--ink);
+  scale: 1.4;
+}
+
+@media (max-width: 768px) {
+  /* On phones the name sits at the bottom, under the thumb, and the wheel takes the top. */
+  .intro {
+    top: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    translate: none;
+    padding: 6rem var(--gutter) 3.2rem;
+    background: linear-gradient(to top, var(--bg) 78%, transparent);
+  }
+
+  .intro .btn-row {
+    margin-top: 2.4rem;
+  }
+
+  .slider {
+    left: 50%;
+    width: 30rem;
+    height: 30.8rem;
+    margin-left: -15rem;
+    margin-top: -25rem;
+    --y1: max(20rem, calc(50svh - 16.6rem));
+    --y2: max(23rem, calc(50svh - 13.6rem));
+    --y3: max(26rem, calc(50svh - 10.6rem));
+  }
+
+  .dots {
+    right: 0.4rem;
+    top: calc(50% - 9.6rem);
+  }
+}
+
+/* ---------- Project page ---------- */
+
+.aside {
+  position: fixed;
+  left: var(--aside-left);
+  top: 50%;
+  translate: 0 -50%;
+  width: 44rem;
+  z-index: 10;
+}
+
+.aside .btn-row {
+  margin-top: 5.6rem;
+}
+
+.meta {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.6rem 2.4rem;
+  margin-top: 5.6rem;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gutter);
+  width: calc(var(--column) + var(--gutter) * 2);
+  margin-left: auto;
+  padding: var(--gutter);
+}
+
+.card {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: var(--card-radius);
+  overflow: hidden;
+  background: var(--card);
+}
+
+.card--hero {
+  aspect-ratio: 33.5 / 34.4;
+  background: transparent;
+}
+
+.card__caption {
+  position: absolute;
+  left: 4rem;
+  right: 4rem;
+  bottom: 3.6rem;
+  font-size: 1.6rem;
+  line-height: 1.3;
+  pointer-events: none;
+}
+
+.card__shade {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 28%;
+  background: linear-gradient(to top, rgb(0 0 0 / 0.45), transparent);
+  pointer-events: none;
+}
+
+.card__caption[data-tone="light"] {
+  color: rgb(255 255 255 / 0.9);
+}
+
+.card__caption[data-tone="dark"] {
+  color: var(--ink);
+}
+
+.card--text {
+  aspect-ratio: auto;
+  min-height: var(--column);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 6rem;
+  padding: 6rem;
+}
+
+.card--text .t-body + .t-body {
+  margin-top: 2.4rem;
+}
+
+.rows {
+  margin-top: 3.2rem;
+  border-top: 1px solid #ececec;
+}
+
+.rows li {
+  display: grid;
+  grid-template-columns: 18rem 1fr;
+  gap: 2.4rem;
+  padding: 1.2rem 0;
+  border-bottom: 1px solid #ececec;
+}
+
+.card--next {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 6rem;
+  aspect-ratio: 2 / 1;
+  transition: background-color 0.3s var(--ease-soft);
+}
+
+.card--next:hover {
+  background: #fbfbfb;
+}
+
+@media (max-width: 768px) {
+  .aside {
+    position: static;
+    translate: none;
+    width: auto;
+    padding: 6.4rem var(--gutter) 3.2rem;
+  }
+
+  .aside .btn-row,
+  .meta {
+    margin-top: 2.4rem;
+  }
+
+  .column {
+    width: 100%;
+    padding-top: 0;
+  }
+
+  .card--text,
+  .card--next {
+    min-height: 0;
+    padding: 2.8rem;
+    gap: 3.2rem;
+  }
+
+  .card__caption {
+    left: 2.4rem;
+    right: 2.4rem;
+    bottom: 2.2rem;
+    font-size: 1.3rem;
+  }
+
+  .rows li {
+    grid-template-columns: 1fr;
+    gap: 0.2rem;
+  }
+}
+
+/* ---------- Identity card ---------- */
+
+.identity {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 6rem;
+}
+
+.identity__fonts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.4rem;
+}
+
+.identity__sample {
+  font-size: 7.2rem;
+  line-height: 1;
+  white-space: nowrap;
+  color: var(--swatch-ink);
+}
+
+.identity__colors {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1.2rem;
+}
+
+.identity__chip {
+  aspect-ratio: 1;
+  border-radius: 1.6rem;
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.08);
+}
+
+.font-schibsted {
+  font-family: var(--font-schibsted), sans-serif;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+}
+
+.font-instrument {
+  font-family: var(--font-instrument), serif;
+}
+
+.font-geist {
+  font-family: var(--font-geist), sans-serif;
+}
+
+.font-geist-mono {
+  font-family: var(--font-geist-mono), monospace;
+  letter-spacing: 0.04em;
+}
+
+@media (max-width: 768px) {
+  .identity {
+    padding: 2.8rem 2.8rem 6rem;
+  }
+
+  .identity__sample {
+    font-size: 3.6rem;
+  }
+
+  .identity__colors {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ---------- About ---------- */
+
+.about-intro {
+  min-height: 100svh;
+  position: relative;
+}
+
+.about-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12rem;
+  width: 58rem;
+  margin-left: var(--aside-left);
+  padding-bottom: 16rem;
+}
+
+.about-body .t-body + .t-body {
+  margin-top: 2.4rem;
+}
+
+.list {
+  border-top: 1px solid #e4e4e4;
+}
+
+.list li {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 2.4rem;
+  padding: 1.4rem 0;
+  border-bottom: 1px solid #e4e4e4;
+}
+
+@media (max-width: 768px) {
+  .about-intro {
+    min-height: auto;
+    padding-bottom: 6.4rem;
+  }
+
+  .about-intro .intro {
+    position: static;
+    padding-top: 6.4rem;
+    margin-left: 0;
+  }
+
+  .about-body {
+    width: auto;
+    margin: 0 var(--gutter);
+    gap: 6.4rem;
+  }
+
+  .list li {
+    grid-template-columns: 1fr auto;
+  }
+
+  .list li > :nth-child(2) {
+    grid-row: 2;
+  }
+}
+
+/* ---------- View transitions: the card on the home becomes the project's first card ---------- */
+
+::view-transition {
+  pointer-events: none;
+}
+
+::view-transition-group(.morph) {
+  animation-duration: 1s;
+  animation-timing-function: var(--ease-out);
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.45s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+  }
 }
