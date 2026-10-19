@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="6 5 184 70" role="img" aria-label="nicell">
+  <title>nicell</title>
+  <g fill="none" stroke="#15171C" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <!-- n -->
+    <path d="M14 56V32.5L50 67.5V32.5"/>
+    <!-- i -->
+    <path d="M64 67.5V32.5"/>
+    <!-- c -->
+    <path d="M107.87 37.63A17.5 17.5 0 1 0 107.87 62.37"/>
+    <!-- e -->
+    <path d="M118.9 50H153.9A17.5 17.5 0 1 0 148.77 62.37"/>
+    <!-- l -->
+    <path d="M167.9 67.5V12.5"/>
+    <!-- l -->
+    <path d="M181.9 67.5V12.5"/>
+  </g>
+</svg>
