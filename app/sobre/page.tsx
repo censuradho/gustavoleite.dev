@@ -3,9 +3,11 @@ import Link from "next/link";
 import type { CSSProperties } from "react";
 
 import { ArrowLeftIcon, DownloadIcon, GitHubIcon, LinkedInIcon, MailIcon } from "@/components/icons";
+import { JsonLd } from "@/components/json-ld";
 import { RichText } from "@/components/rich-text";
 import { about, profile } from "@/content/profile";
 import { projects } from "@/content/projects";
+import { profilePageSchema } from "@/content/structured-data";
 
 export const metadata: Metadata = {
   title: "Sobre",
@@ -16,6 +18,8 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <main>
+      <JsonLd data={profilePageSchema()} />
+
       <section className="about-intro">
         <div className="intro">
           <h1 className="t-h1 ink">
