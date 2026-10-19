@@ -2,8 +2,10 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Instrument_Serif, Inter_Tight, Schibsted_Grotesk } from "next/font/google";
 
+import { JsonLd } from "@/components/json-ld";
 import { SmoothScroll } from "@/components/smooth-scroll";
 import { profile } from "@/content/profile";
+import { siteSchema } from "@/content/structured-data";
 
 import "lenis/dist/lenis.css";
 import "./globals.css";
@@ -48,8 +50,7 @@ export const metadata: Metadata = {
     default: `${profile.name} — ${profile.role}`,
     template: `%s — ${profile.name}`,
   },
-  description:
-    "Portfólio de Gustavo Leite, engenheiro de software em Porto Alegre. Projetos de produto do começo ao fim: Nicell e Roarch.",
+  description: profile.description,
   openGraph: {
     type: "website",
     locale: "pt_BR",
@@ -68,6 +69,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${interTight.variable} ${schibsted.variable} ${instrumentSerif.variable} ${geist.variable} ${geistMono.variable} antialiased`}
     >
       <body>
+        <JsonLd data={siteSchema()} />
         <SmoothScroll />
         {children}
       </body>
