@@ -6,6 +6,7 @@ export const profile = {
   headline: "Sites e sistemas sob medida",
   location: "Porto Alegre, RS",
   email: "gustavoleite.dev@gmail.com",
+  phone: "+55 51 98239-7632",
   linkedin: "https://www.linkedin.com/in/gustavoleite-dev",
   github: "https://github.com/censuradho",
   resume: "/GustavoLeiteOliveira-Resume.pdf",
@@ -14,6 +15,11 @@ export const profile = {
     "Gustavo Leite cria sites e sistemas sob medida para empresas de Porto Alegre e de todo o Brasil, do entendimento do negócio ao produto no ar.",
   // Same GA4 property as the previous version of the site, so the history carries over.
   analyticsId: "G-7S7ENB8DS9",
+}
+
+/** A WhatsApp chat with the message already typed, so the visitor only has to send it. */
+export function whatsappLink(text = "Oi, Gustavo! Vi seu site e queria conversar sobre um projeto.") {
+  return `https://wa.me/${profile.phone.replace(/\D/g, "")}?text=${encodeURIComponent(text)}`
 }
 
 /** What is on offer, on the about page and in the structured data. */
