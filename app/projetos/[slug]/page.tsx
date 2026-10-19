@@ -8,9 +8,13 @@ import { JsonLd } from "@/components/json-ld";
 import { ProjectBlock } from "@/components/project-blocks";
 import { ProjectCover } from "@/components/project-cover";
 import { RememberSlide } from "@/components/remember-slide";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { ProjectMark } from "@/components/wordmarks";
 import { getNextProject, getProject, projects } from "@/content/projects";
+import { profile } from "@/content/profile";
 import { projectSchema } from "@/content/structured-data";
+
+import { openGraphBase } from "../../shared-metadata";
 
 export function generateStaticParams() {
   return projects.map((project) => ({ slug: project.slug }));
@@ -20,12 +24,18 @@ export async function generateMetadata({ params }: PageProps<"/projetos/[slug]">
   const project = getProject((await params).slug);
   if (!project) return {};
 
+  const title = `${project.name}: ${project.tagline.toLowerCase()}`;
+  const path = `/projetos/${project.slug}`;
+
   return {
-    title: project.name,
+    title,
     description: project.description,
+    alternates: { canonical: path },
     openGraph: {
-      title: project.name,
+      ...openGraphBase,
+      title,
       description: project.description,
+      url: path,
       images: [{ url: project.og.src, width: project.og.width, height: project.og.height, alt: `${project.name}, ${project.tagline.toLowerCase()}` }],
     },
   };
@@ -76,6 +86,7 @@ export default async function ProjectPage({ params }: PageProps<"/projetos/[slug
           >
             <ExternalIcon />
           </a>
+          <ThemeToggle />
         </div>
 
         <dl className="meta t-small fade-in" style={{ "--line": 4 } as CSSProperties}>
@@ -105,6 +116,21 @@ export default async function ProjectPage({ params }: PageProps<"/projetos/[slug
         {project.blocks.map((block, index) => (
           <ProjectBlock key={index} block={block} project={project} />
         ))}
+
+        <section className="card card--text card--cta">
+          <h2 className="t-row ink">Seu projeto</h2>
+          <div>
+            <p className="t-body">
+              <span className="ink">Precisa de algo assim para o seu negócio?</span> Me conte como ele funciona hoje e eu
+              volto com uma proposta.
+            </p>
+            <p className="t-body">
+              <a href={`mailto:${profile.email}`} className="text-link">
+                {profile.email}
+              </a>
+            </p>
+          </div>
+        </section>
 
         {next.slug !== project.slug && (
           <Link href={`/projetos/${next.slug}`} transitionTypes={["nav-forward"]} className="card card--next">
