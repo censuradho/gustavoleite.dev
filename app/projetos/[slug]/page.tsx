@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import type { CSSProperties } from "react";
+import { Suspense, type CSSProperties } from "react";
 
 import { ArrowLeftIcon, ExternalIcon } from "@/components/icons";
 import { JsonLd } from "@/components/json-ld";
@@ -41,7 +41,17 @@ export async function generateMetadata({ params }: PageProps<"/projetos/[slug]">
   };
 }
 
-export default async function ProjectPage({ params }: PageProps<"/projetos/[slug]">) {
+// Everything on the page belongs to one project, so all of it waits on the slug. The links into a project
+// prefetch it, which keeps that wait out of the navigation; a direct visit gets it prerendered.
+export default function ProjectPage({ params }: PageProps<"/projetos/[slug]">) {
+  return (
+    <Suspense>
+      <Project params={params} />
+    </Suspense>
+  );
+}
+
+async function Project({ params }: Pick<PageProps<"/projetos/[slug]">, "params">) {
   const project = getProject((await params).slug);
   if (!project) notFound();
 
@@ -133,7 +143,7 @@ export default async function ProjectPage({ params }: PageProps<"/projetos/[slug
         </section>
 
         {next.slug !== project.slug && (
-          <Link href={`/projetos/${next.slug}`} transitionTypes={["nav-forward"]} className="card card--next">
+          <Link href={`/projetos/${next.slug}`} prefetch transitionTypes={["nav-forward"]} className="card card--next">
             <span className="t-row ink">Próximo projeto</span>
             <span className="t-h1">
               <span className="ink block">{next.name}</span>
