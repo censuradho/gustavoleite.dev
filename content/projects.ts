@@ -6,7 +6,7 @@ import nicellHero from "@/public/projects/nicell/hero.webp"
 import nicellKanban from "@/public/projects/nicell/kanban.webp"
 import nicellLosses from "@/public/projects/nicell/losses.webp"
 import nicellMobile from "@/public/projects/nicell/mobile.webp"
-import nicellOg from "@/public/projects/nicell/og.jpg"
+import nicellOg from "@/public/projects/nicell/og.png"
 import nicellOs from "@/public/projects/nicell/os.webp"
 import nicellPain from "@/public/projects/nicell/pain.webp"
 import nicellPortal from "@/public/projects/nicell/portal.webp"
@@ -27,7 +27,7 @@ import roarchLivingFireplace from "@/public/projects/roarch/bg-sala-lareira.webp
 import roarchWindowCacti from "@/public/projects/roarch/bg-janela-cactos.webp"
 import roarchManifesto from "@/public/projects/roarch/manifesto.webp"
 import roarchMobile from "@/public/projects/roarch/mobile.webp"
-import roarchOg from "@/public/projects/roarch/og.jpg"
+import roarchOg from "@/public/projects/roarch/og.png"
 import roarchPlan from "@/public/projects/roarch/plan.webp"
 import roarchProjects from "@/public/projects/roarch/projects-grid.webp"
 
@@ -70,7 +70,7 @@ export type Project = {
   meta: { label: string; value: string }[]
   /** `video` loops in place of the screenshot on the active card; the screenshot stays as its poster. */
   cover: Shot & { surface: Surface; video?: string }
-  /** The link preview, in JPEG because some networks (LinkedIn among them) don't show WebP. */
+  /** The link preview. PNG, because some networks (LinkedIn among them) don't show WebP and recompress JPEG further. */
   og: StaticImageData
   identity: Identity
   blocks: Block[]
