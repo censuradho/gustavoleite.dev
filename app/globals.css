@@ -749,6 +749,7 @@ a.text-link:hover {
 }
 
 .about-body {
+  scroll-margin-top: 12rem;
   display: flex;
   flex-direction: column;
   gap: 12rem;
@@ -759,6 +760,60 @@ a.text-link:hover {
 
 .about-body .t-body + .t-body {
   margin-top: 2.4rem;
+}
+
+/* The intro fills the first screen, so a cue at its foot says the page goes on. It fades as the page scrolls. */
+.scroll-cue {
+  position: absolute;
+  left: var(--aside-left);
+  bottom: 4.8rem;
+  animation: scroll-cue-out linear both;
+  animation-timeline: scroll(root);
+  animation-range: 0 20svh;
+}
+
+.scroll-cue__inner {
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
+  transition: color 0.3s;
+}
+
+.scroll-cue:hover .scroll-cue__inner {
+  color: var(--ink);
+}
+
+.scroll-cue__track {
+  position: relative;
+  width: 1px;
+  height: 4.8rem;
+  overflow: hidden;
+  background: #e4e4e4;
+}
+
+.scroll-cue__track::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 50%;
+  background: var(--ink);
+  animation: scroll-cue-run 2s var(--ease-soft) infinite;
+}
+
+@keyframes scroll-cue-run {
+  from {
+    translate: 0 -100%;
+  }
+  80%,
+  to {
+    translate: 0 200%;
+  }
+}
+
+@keyframes scroll-cue-out {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
 }
 
 .list {
@@ -783,6 +838,10 @@ a.text-link:hover {
     position: static;
     padding-top: 6.4rem;
     margin-left: 0;
+  }
+
+  .scroll-cue {
+    display: none;
   }
 
   .about-body {
@@ -823,6 +882,12 @@ a.text-link:hover {
     animation-duration: 0.01ms !important;
     animation-delay: 0ms !important;
     transition-duration: 0.01ms !important;
+  }
+
+  /* The global rule above would loop it at near-zero duration, a flicker; it rests half-way down instead. */
+  .scroll-cue__track::after {
+    animation: none !important;
+    translate: 0 50%;
   }
 
   ::view-transition-old(*),

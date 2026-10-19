@@ -50,9 +50,16 @@ export default function AboutPage() {
             </a>
           </div>
         </div>
+
+        <a href="#trajetoria" className="scroll-cue">
+          <span className="scroll-cue__inner t-small fade-in" style={{ "--line": 6 } as CSSProperties}>
+            <span className="scroll-cue__track" aria-hidden="true" />
+            Role para ler mais
+          </span>
+        </a>
       </section>
 
-      <div className="about-body">
+      <div id="trajetoria" className="about-body">
         <div>
           {about.intro.map((paragraph) => (
             <p key={paragraph} className="t-body">
