@@ -127,6 +127,7 @@ export function ProjectSlider({ projects, actions }: { projects: Project[]; acti
               {isActive ? (
                 <Link
                   href={`/projetos/${project.slug}`}
+                  prefetch
                   transitionTypes={["nav-forward"]}
                   className="slide__link"
                   onMouseEnter={() => setHovered(true)}
