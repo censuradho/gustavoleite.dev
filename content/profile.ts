@@ -2,6 +2,8 @@ export const profile = {
   name: "Gustavo Leite",
   fullName: "Gustavo Leite Oliveira",
   role: "Engenheiro de software",
+  /** What a client hires: the line under the name on the home and in the default title. */
+  headline: "Sites e sistemas sob medida",
   location: "Porto Alegre, RS",
   email: "gustavoleite.dev@gmail.com",
   linkedin: "https://www.linkedin.com/in/gustavoleite-dev",
@@ -9,17 +11,25 @@ export const profile = {
   resume: "/GustavoLeiteOliveira-Resume.pdf",
   site: "https://gustavoleite.dev",
   description:
-    "Portfólio de Gustavo Leite, engenheiro de software em Porto Alegre. Projetos de produto do começo ao fim: Nicell e Roarch.",
+    "Gustavo Leite cria sites e sistemas sob medida para empresas de Porto Alegre e de todo o Brasil, do entendimento do negócio ao produto no ar.",
   // Same GA4 property as the previous version of the site, so the history carries over.
   analyticsId: "G-7S7ENB8DS9",
 }
 
+/** What is on offer, on the about page and in the structured data. */
+export const services = [
+  { name: "Sites", description: "Institucionais e de produto, rápidos no celular e prontos para aparecer no Google" },
+  { name: "Sistemas de gestão", description: "Feitos para a operação do seu negócio, com painéis e portal para os clientes" },
+  { name: "Lojas virtuais", description: "E-commerce rápido, que aguenta campanha e tráfego alto" },
+  { name: "Produto e design", description: "Do entendimento do negócio ao desenho da interface, antes da primeira linha de código" },
+]
+
 /** Paragraphs use `**trecho**` to mark what reads in ink; the rest stays grey. */
 export const about = {
   intro: [
-    "**Engenheiro de software** com 7 anos entregando produtos de alta performance, de **e-commerces com tráfego intenso** a **plataformas de gestão** usadas por órgãos públicos.",
-    "Especialista em **React e Next.js**, com domínio de Micro-Frontends, BFF e Core Web Vitals. Hoje atuo de ponta a ponta com **NestJS, PostgreSQL e AWS**.",
-    "Gosto de produto: entender a operação de quem usa, desenhar a interface e levar até produção. **Nicell** e **Roarch** são dois projetos que levei assim, do começo ao fim.",
+    "Crio **sites e sistemas sob medida** para negócios que precisam de mais do que um modelo pronto. São 7 anos entregando produtos, de **lojas virtuais com tráfego intenso** a **plataformas de gestão** usadas por órgãos públicos.",
+    "Trabalho de ponta a ponta: entendo **a operação de quem vai usar**, desenho a interface, desenvolvo e coloco no ar. Você fala com quem faz, do primeiro briefing à entrega.",
+    "**Nicell** e **Roarch** são dois projetos feitos assim, do começo ao fim: um sistema de gestão para assistências técnicas e o site de um estúdio de interiores.",
   ],
   experience: [
     { company: "Encibra", role: "Senior Frontend Engineer / Fullstack", period: "2026 — hoje" },
@@ -30,10 +40,8 @@ export const about = {
     { company: "Openbox.ai", role: "Desenvolvedor Web", period: "2019 — 2021" },
   ],
   highlights: [
-    "Liderei a criação de um **Design System do zero**, adotado por múltiplos times na Vortigo.",
-    "Escalei **Atacadão e Unicred** com Micro-Frontends (Single-SPA e Module Federation), cada um com um BFF em NestJS.",
-    "Levei os **Core Web Vitals ao verde** em Vans, Arezzo e MyShoes com SSR, SSG e otimização de imagens.",
-    "Reduzi o tempo de build em **~60%** migrando aplicações de Create React App para Vite.",
+    "Deixei as lojas virtuais da **Vans, Arezzo e MyShoes** mais rápidas, dentro do padrão de velocidade que o Google usa para ranquear os sites.",
+    "Ajudei **Atacadão e Unicred** a crescer suas plataformas com vários times entregando ao mesmo tempo, sem um travar o outro.",
   ],
   skills: [
     { area: "Frontend", items: "React, Next.js, TypeScript, Tailwind, TanStack Query/Table, Shopify headless" },
