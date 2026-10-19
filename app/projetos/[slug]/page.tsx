@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: PageProps<"/projetos/[slug]">
     openGraph: {
       title: project.name,
       description: project.description,
-      images: [{ url: project.cover.image.src, width: project.cover.image.width, height: project.cover.image.height }],
+      images: [{ url: project.og.src, width: project.og.width, height: project.og.height, alt: `${project.name}, ${project.tagline.toLowerCase()}` }],
     },
   };
 }
