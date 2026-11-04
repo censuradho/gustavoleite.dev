@@ -112,7 +112,7 @@ export const projects: Project[] = [
     cover: {
       image: nicellHero,
       alt: "Rolagem pela página inicial do Nicell: o DRE do mês, o dia a dia da bancada, o quadro de ordens de serviço, o checklist com fotos e o estoque",
-      video: "/projects/nicell/hero.mp4",
+      video: "/projects/nicell/nicell-sizzle.mp4",
       surface: nicellBenchSurface,
     },
     og: nicellOg,
